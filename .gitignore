@@ -4,6 +4,7 @@
 .DS_Store
 .AppleDouble
 .Parent
+.vscode
 _autosave-*
 _archive
 fp-info-cache

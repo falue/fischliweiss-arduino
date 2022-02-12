@@ -1,7 +1,0 @@
-{
-    "board": "arduino:megaavr:nona4809",
-    "sketch": "fischli.ino",
-    "port": "/dev/tty.usbmodem12201",
-    "programmer": "arduino:avrispmkii",
-    "configuration": "mode=on"
-}
