@@ -1,0 +1,8 @@
+*.pyc
+.cache
+.idea
+.DS_Store
+.AppleDouble
+.Parent
+_autosave-*
+fp-info-cache
