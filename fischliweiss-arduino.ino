@@ -11,7 +11,7 @@ D5= Relay 1 = ORANGE
 const int R = 4;
 const int O = 5;
 const int G = 3;
-// 4th unused relay: pin 2
+const int clicker = 2;  // 4th unused relay: pin 2
 
 const int durationRedInput = A0;  // poti pin
 const int durationGreenInput = A2;  // poti pin A1 orig?
@@ -23,6 +23,7 @@ int durationRed = maxDurationSeconds;  // Seconds red light is on, changed by po
 int durationGreen = maxDurationSeconds;  // Seconds green light is on, changed by poti
 const int maxDurationOrange = 20*60;  // Max seconds seconds delay orange
 int durationOrange = maxDurationOrange;  // delay ms inbetween changing lights
+int durationAudioClicker = 333;
 
 long step = 0;  // iterator for green AND red
 
@@ -35,6 +36,7 @@ void setup() {
   pinMode(R, OUTPUT);
   pinMode(O, OUTPUT);
   pinMode(G, OUTPUT);
+  pinMode(clicker, OUTPUT);
 
   pinMode(durationRedInput, INPUT);
   pinMode(durationGreenInput, INPUT);
@@ -52,9 +54,13 @@ void setup() {
   // Blink all lights three times to show its working
   blink(3);
 
+  // Show who's boss
+  click(4);
+
   // Keep red shining 
   digitalWrite(R, HIGH);
 
+  Serial.println();
   Serial.println("LOOP BEGINS");
 }
 
@@ -109,9 +115,12 @@ void turnRed() {
   // Update Orange
   durationOrange = readPoti(durationOrangeInput, maxDurationOrange);
 
+  Serial.print("⚫️ 🟠 ⚫️\t");
   digitalWrite(G, LOW);
   digitalWrite(O, HIGH);
   digitalWrite(R, LOW);
+  click(1);
+  Serial.println();
 
   step = 0;  // Reset for delay on green
   while(step < durationOrange) {
@@ -130,10 +139,12 @@ void turnRed() {
   }
   /* delay(durationOrange); */
 
-  Serial.println("⚫️ ⚫️ 🔴");
+  Serial.print("⚫️ ⚫️ 🔴\t");
   digitalWrite(G, LOW);
   digitalWrite(O, LOW);
   digitalWrite(R, HIGH);
+  click(1);
+  Serial.println("");
 
   step = 0;  // Reset for delay
 }
@@ -142,9 +153,12 @@ void turnGreen() {
   // Update Orange
   durationOrange = readPoti(durationOrangeInput, maxDurationOrange);
 
+  Serial.print("⚫️ 🟠 🔴\t");
   digitalWrite(G, LOW);
   digitalWrite(O, HIGH);
   digitalWrite(R, HIGH);
+  click(1);
+  Serial.println();
 
   step = 0;  // Reset for delay on green
   while(step < durationOrange) {
@@ -162,16 +176,28 @@ void turnGreen() {
     delay(1000);
   }
 
-  Serial.println("🟢 ⚫️ ⚫️");
+  Serial.print("🟢 ⚫️ ⚫️\t");
   digitalWrite(G, HIGH);
   digitalWrite(O, LOW);
   digitalWrite(R, LOW);
+  click(1);
+  Serial.println("");
 
   step = 0;  // Reset for delay
 }
 
 int readPoti(int pin, int max) {
   return map(analogRead(pin), 0, 1024, 1, max+1);
+}
+
+void click(int times) {
+  for(int i = 0; i < times; i++) {
+    Serial.print("+ click! ");
+    digitalWrite(clicker, HIGH);
+    delay(durationAudioClicker);
+    digitalWrite(clicker, LOW);
+    if(times > 1) delay(durationAudioClicker);
+  }
 }
 
 
