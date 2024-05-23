@@ -23,7 +23,7 @@ int durationRed = maxDurationSeconds;  // Seconds red light is on, changed by po
 int durationGreen = maxDurationSeconds;  // Seconds green light is on, changed by poti
 const int maxDurationOrange = 20*60;  // Max seconds seconds delay orange
 int durationOrange = maxDurationOrange;  // delay ms inbetween changing lights
-int durationAudioClicker = 333;
+int durationAudioClicker = 33;
 
 long step = 0;  // iterator for green AND red
 
